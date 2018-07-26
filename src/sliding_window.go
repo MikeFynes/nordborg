@@ -3,29 +3,36 @@ package main
 import "sort"
 
 type SlidingWindow struct{
-	times []int
+	times []int // milliseconds since start
 	values []int
-	size int
-	diff int
+	size int // number of entries
+	timeDiffMax int // max difference between first entry and latest
 }
 
-func (w *SlidingWindow) addPoint(time, value int){
-	// Slide window
-	if len(w.times) == w.size {
-		var reversedTimes = reverseIntArray(w.times)
-		var reversedValues = reverseIntArray(w.values)
-		w.times = reverseIntArray(reversedTimes[:w.size-1])
-		w.values = reverseIntArray(reversedValues[:w.size-1])
+func (w *SlidingWindow) addDelay(time, value int){
+
+	// check time vs first entry in window, if greater than max then keep sliding until it is not
+	if len(w.times) > 0 && time - w.times[0] >= w.timeDiffMax {
+		slideWindow(w)
+	} else if len(w.times) == w.size {
+		slideWindow(w)
 	}
 
 	w.times = append(w.times, time)
 	w.values = append(w.values, value)
 }
 
+func slideWindow(w *SlidingWindow) {
+	var reversedTimes = reverseIntArray(w.times)
+	var reversedValues = reverseIntArray(w.values)
+	w.times = reverseIntArray(reversedTimes[:len(w.times) -1])
+	w.values = reverseIntArray(reversedValues[:len(w.values) -1])
+}
+
 //If only one element available in the sliding window the answer is -1.
 //If n is odd then Median (M) = value of ((n + 1)/2)th item from a sorted array of length n.
 //If n is even then Median (M) = value of [((n)/2)th item term + ((n)/2 + 1)th item term ]
-func (w *SlidingWindow) medianOfWindow()(median int){
+func (w *SlidingWindow) getMedian()(median int){
 	var values = make([]int, len(w.values))
 	copy(values, w.values)
 	sort.Ints(values)
