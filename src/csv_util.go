@@ -11,13 +11,10 @@ import (
 	"fmt"
 )
 
-func readCsvWithSlidingWindow(filePath string, maxWindowSize int, maxTimeSeparationMillis int)(values []int){
+func readCsvWithSlidingWindow(filePath string, window SlidingWindow, outputPath string){
 	csvFile, _ := os.Open(filePath)
 	reader := csv.NewReader(bufio.NewReader(csvFile))
 	var time = 100
-	var window = SlidingWindow{}
-	window.size = maxWindowSize
-	window.timeDiffMax = maxTimeSeparationMillis
 	for {
 		line, error := reader.Read()
 		if error == io.EOF {
@@ -34,8 +31,10 @@ func readCsvWithSlidingWindow(filePath string, maxWindowSize int, maxTimeSeparat
 			window.addDelay(time, i)
 			time += 100
 			var median = window.getMedian()
-			fmt.Println(median)
-			values = append(values, i)
+			var output = fmt.Sprintf("%d \r\r", median)
+			var lines = []string{output}
+			writeToCsv(outputPath, lines)
+
 		} else {
 			log.Fatal(conversionError)
 		}
@@ -43,5 +42,25 @@ func readCsvWithSlidingWindow(filePath string, maxWindowSize int, maxTimeSeparat
 
 	return
 }
+
+func writeToCsv(fileName string, value []string){
+	file, err := os.Create(fileName)
+	if err == nil {
+		writer := csv.NewWriter(file)
+		defer writer.Flush()
+
+		defer file.Close()
+
+		defer writer.Flush()
+
+		err = writer.Write(value)
+
+		if err != nil {
+			file.Close()
+			log.Fatal(err)
+		}
+	}
+}
+
 
 
