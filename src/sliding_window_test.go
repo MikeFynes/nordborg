@@ -24,7 +24,7 @@ func TestSlidingWindowMedianCalculation(t *testing.T){
 }
 
 func TestSlidingWindowTimeDiffMaxSlide(t *testing.T) {
-	var expected = []int{-1, 101, 101, 105, 115, 117}
+	var expected = []int{-1, 101, -1, 105, 115, 115}
 
 	var time = []int{100, 150, 25000, 25200, 25300, 25400}
 	var input = []int{100, 102, 101, 110, 120, 115}

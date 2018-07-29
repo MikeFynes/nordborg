@@ -12,9 +12,11 @@ type SlidingWindow struct{
 func (w *SlidingWindow) addDelay(time, value int){
 
 	// check time vs first entry in window, if greater than max then keep sliding until it is not
-	if len(w.times) > 0 && time - w.times[0] >= w.timeDiffMax {
+	for len(w.times) > 0 && time - w.times[0] > w.timeDiffMax {
 		slideWindow(w)
-	} else if len(w.times) == w.size {
+	}
+
+	if len(w.times) == w.size {
 		slideWindow(w)
 	}
 
@@ -23,8 +25,11 @@ func (w *SlidingWindow) addDelay(time, value int){
 }
 
 func slideWindow(w *SlidingWindow) {
+	// Flip the array
 	var reversedTimes = reverseIntArray(w.times)
 	var reversedValues = reverseIntArray(w.values)
+
+	// Pop items out and reverse back to normal
 	w.times = reverseIntArray(reversedTimes[:len(w.times) -1])
 	w.values = reverseIntArray(reversedValues[:len(w.values) -1])
 }
