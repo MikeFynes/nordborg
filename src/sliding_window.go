@@ -25,13 +25,8 @@ func (w *SlidingWindow) addDelay(time, value int){
 }
 
 func slideWindow(w *SlidingWindow) {
-	// Flip the array
-	var reversedTimes = reverseIntArray(w.times)
-	var reversedValues = reverseIntArray(w.values)
-
-	// Pop items out and reverse back to normal
-	w.times = reverseIntArray(reversedTimes[:len(w.times) -1])
-	w.values = reverseIntArray(reversedValues[:len(w.values) -1])
+	w.times = w.times[1:]
+	w.values = w.values[1:]
 }
 
 //If only one element available in the sliding window the answer is -1.
