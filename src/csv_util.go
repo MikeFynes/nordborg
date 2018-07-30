@@ -31,7 +31,7 @@ func readCsvWithSlidingWindow(filePath string, window SlidingWindow, outputPath 
 			window.addDelay(time, i)
 			time += 100
 			var median = window.getMedian()
-			var output = fmt.Sprintf("%d \r\r", median)
+			var output = fmt.Sprintf("%d", median)
 			var lines = []string{output}
 			writeToCsv(outputPath, lines)
 
@@ -44,21 +44,23 @@ func readCsvWithSlidingWindow(filePath string, window SlidingWindow, outputPath 
 }
 
 func writeToCsv(fileName string, value []string){
-	file, err := os.Create(fileName)
-	if err == nil {
-		writer := csv.NewWriter(file)
-		defer writer.Flush()
-
-		defer file.Close()
-
-		defer writer.Flush()
-
-		err = writer.Write(value)
-
+		f, err := getFileToWriteTo(fileName)
 		if err != nil {
-			file.Close()
-			log.Fatal(err)
+			fmt.Println(err)
+			return
 		}
+		w := csv.NewWriter(f)
+		w.Write(value)
+		w.Flush()
+}
+
+func getFileToWriteTo(fileName string)(file *os.File, err error){
+	if _, err := os.Stat(fileName); os.IsNotExist(err) {
+		file, err := os.Create(fileName)
+		return file, err
+	} else {
+		file, err := os.OpenFile(fileName, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+		return file, err
 	}
 }
 
