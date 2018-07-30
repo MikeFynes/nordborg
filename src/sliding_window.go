@@ -39,8 +39,12 @@ func (w *SlidingWindow) getMedian()(median int){
 	switch{
 	case len(values) == 1 : median = -1
 	case len(values) % 2 == 0 :
+		// Complexity
+		// x1 = len(values) / 2  -1 		2
+		// x2 =  len(values) / 2 +1 -1 		3
+		// Complexity is currently 5
 		var itemOne = len(values) / 2 -1
-		var itemTwo = (len(values) / 2) +1 -1
+		var itemTwo = len(values) / 2
 		var interimOne = values[itemOne]
 		var interimTwo = values[itemTwo]
 		median = (interimOne + interimTwo) / 2
