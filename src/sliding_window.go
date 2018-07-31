@@ -39,38 +39,11 @@ func (w *SlidingWindow) getMedian()(median int){
 	switch{
 	case len(values) == 1 : median = -1
 	case len(values) % 2 == 0 :
-		var itemOne = len(values) / 2 -1
-		var itemTwo = len(values) / 2
-		var interimOne = values[itemOne]
-		var interimTwo = values[itemTwo]
-		median = (interimOne + interimTwo) / 2
+		median = (values[len(values) / 2 -1] + values[len(values) / 2]) / 2
 	case len(values) % 2 != 0 :
 		var itemOne = (len(values) + 1) / 2 -1
 		median = values[itemOne]
 	}
 
 	return
-}
-
-
-// attempt at QuickMedian algorithm see : https://www.i-programmer.info/babbages-bag/505-quick-median.html
-func(w *SlidingWindow) getMedianQuickMedian()(median int){
-	var values =  make([]int, len(w.values))
-	copy(values, w.values)
-	var k = len(values) / 2
-	var n = len(w.values)
-	var i = 0
-	var j = 0
-	var L = 0
-	var R = n -1
-
-	for L < R {
-		x := values[k]
-		i = L
-		j = R
-}
-
-
-
-
 }
