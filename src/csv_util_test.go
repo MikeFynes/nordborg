@@ -9,7 +9,7 @@ func TestCsvReaderDoc1(t *testing.T){
 	var window = SlidingWindow{}
 	window.size = 5
 	window.timeDiffMax = 25000
-	var outputFile = "output1.csv"
+	var outputFile = "output-test2.csv"
 	if _, err := os.Stat(outputFile); !os.IsNotExist(err) {
 		var err = os.Remove(outputFile)
 		if err != nil {
@@ -24,7 +24,7 @@ func TestCsvReaderDoc2(t *testing.T) {
 	var window= SlidingWindow{}
 	window.size = 5
 	window.timeDiffMax = 25000
-	var outputFile = "output2.csv"
+	var outputFile = "output-test3.csv"
 	if _, err := os.Stat(outputFile); os.IsExist(err) {
 		var err = os.Remove(outputFile)
 		if err != nil {
@@ -38,7 +38,7 @@ func TestCsvReaderDoc3(t *testing.T){
 	var window = SlidingWindow{}
 	window.size = 5
 	window.timeDiffMax = 25000
-	var outputFile = "output3.csv"
+	var outputFile = "output-test4.csv"
 	if _, err := os.Stat(outputFile); os.IsExist(err) {
 		var err = os.Remove(outputFile)
 		if err != nil {
