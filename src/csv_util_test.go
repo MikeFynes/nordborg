@@ -9,7 +9,7 @@ func TestCsvReaderDoc1(t *testing.T){
 	var window = SlidingWindow{}
 	window.size = 5
 	window.timeDiffMax = 25000
-	var outputFile = "output-test2.csv"
+	var outputFile = "testdata/output-test2.csv"
 	if _, err := os.Stat(outputFile); !os.IsNotExist(err) {
 		var err = os.Remove(outputFile)
 		if err != nil {
@@ -17,21 +17,21 @@ func TestCsvReaderDoc1(t *testing.T){
 		}
 	}
 
-	readCsvWithSlidingWindow("Round 1. Software engineering test cases - test2.csv", window, outputFile)
+	readCsvWithSlidingWindow("testdata/Round 1. Software engineering test cases - test2.csv", window, outputFile)
 }
 
 func TestCsvReaderDoc2(t *testing.T) {
 	var window= SlidingWindow{}
 	window.size = 5
 	window.timeDiffMax = 25000
-	var outputFile = "output-test3.csv"
+	var outputFile = "testdata/output-test3.csv"
 	if _, err := os.Stat(outputFile); os.IsExist(err) {
 		var err = os.Remove(outputFile)
 		if err != nil {
 			t.Errorf("could not delete file %s", outputFile)
 		}
 	}
-	readCsvWithSlidingWindow("Round 1. Software engineering test cases - test3.csv", window, outputFile)
+	readCsvWithSlidingWindow("testdata/Round 1. Software engineering test cases - test3.csv", window, outputFile)
 }
 
 func TestCsvReaderDoc3(t *testing.T){
@@ -42,8 +42,8 @@ func TestCsvReaderDoc3(t *testing.T){
 	if _, err := os.Stat(outputFile); os.IsExist(err) {
 		var err = os.Remove(outputFile)
 		if err != nil {
-			t.Errorf("could not delete file %s", outputFile)
+			t.Errorf("testdata/could not delete file %s", outputFile)
 		}
 	}
-	readCsvWithSlidingWindow("Round 1. Software engineering test cases - test4.csv", window, outputFile)
+	readCsvWithSlidingWindow("testdata/Round 1. Software engineering test cases - test4.csv", window, outputFile)
 }

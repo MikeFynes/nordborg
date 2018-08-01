@@ -46,7 +46,7 @@ func readCsvWithSlidingWindow(filePath string, window SlidingWindow, outputPath 
 func writeToCsv(fileName string, value []string){
 		f, err := getFileToWriteTo(fileName)
 		if err != nil {
-			fmt.Println(err)
+			fmt.Printf("Could not get file! Error : %v", err)
 			return
 		}
 		w := csv.NewWriter(f)
